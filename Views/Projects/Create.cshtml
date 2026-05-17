@@ -1,0 +1,72 @@
+@model PortfolioMVC.Models.Project
+@{
+    ViewData["Title"] = "Add Project";
+}
+
+<section class="page-hero">
+    <div class="container">
+        <a asp-action="Index" class="back-link"><i class="bi bi-arrow-left me-1"></i> All Projects</a>
+        <h1 class="page-hero-title mt-3">Add New Project</h1>
+    </div>
+</section>
+
+<section class="py-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="form-card">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger small mb-3"></div>
+
+                        <div class="mb-4">
+                            <label asp-for="Title" class="form-label-custom">Project Title *</label>
+                            <input asp-for="Title" class="form-control form-control-custom" placeholder="e.g., BeeGuard – Apiculture System" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label-custom">Description *</label>
+                            <textarea asp-for="Description" class="form-control form-control-custom" rows="5" placeholder="Describe what the project does, the problem it solves, and your role."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="TechStack" class="form-label-custom">Tech Stack</label>
+                            <input asp-for="TechStack" class="form-control form-control-custom" placeholder="e.g., C#, ASP.NET Core, MySQL, Bootstrap" />
+                            <small class="text-muted">Separate with commas</small>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="GitHubUrl" class="form-label-custom">GitHub URL</label>
+                                <input asp-for="GitHubUrl" class="form-control form-control-custom" placeholder="https://github.com/..." />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LiveUrl" class="form-label-custom">Live URL</label>
+                                <input asp-for="LiveUrl" class="form-control form-control-custom" placeholder="https://..." />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <input asp-for="IsFeatured" class="form-check-input" type="checkbox" />
+                                <label asp-for="IsFeatured" class="form-check-label">Mark as Featured Project</label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-primary-custom">
+                                <i class="bi bi-plus-circle me-1"></i> Add Project
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-custom">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,208 @@
+@{
+    ViewData["Title"] = "Home";
+    var featuredProjects = ViewBag.FeaturedProjects as List<PortfolioMVC.Models.Project> ?? new();
+    var skills = ViewBag.Skills as List<PortfolioMVC.Models.Skill> ?? new();
+    var skillCategories = skills.GroupBy(s => s.Category ?? "Other").ToDictionary(g => g.Key, g => g.ToList());
+}
+
+<!-- HERO -->
+<section class="hero-section">
+    <div class="hero-grid-bg"></div>
+    <div class="container hero-content">
+        <div class="row align-items-center min-vh-hero">
+            <div class="col-lg-7">
+                <span class="hero-tag">// Hello, world!</span>
+                <h1 class="hero-name">Evans<br><span class="accent-text">Gutierrez</span></h1>
+                <p class="hero-subtitle">Full Stack Developer &amp; BSIT Student</p>
+                <p class="hero-desc">
+                    Building smart, scalable systems at the intersection of software engineering and real-world impact.
+                    Currently developing <strong>BeeGuard</strong> — an AI-powered apiculture management platform for Philippine beekeepers.
+                </p>
+                <div class="hero-actions">
+                    <a asp-controller="Projects" asp-action="Index" class="btn btn-primary-custom">
+                        View Projects <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                    <a asp-controller="Contact" asp-action="Index" class="btn btn-outline-custom ms-2">
+                        Contact Me
+                    </a>
+                </div>
+                <div class="hero-badges mt-4">
+                    <span class="badge-pill">C# / .NET</span>
+                    <span class="badge-pill">MySQL</span>
+                    <span class="badge-pill">Python</span>
+                    <span class="badge-pill">Flutter</span>
+                    <span class="badge-pill">Machine Learning</span>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-flex justify-content-end">
+                <div class="hero-card-stack">
+                    <div class="float-card card-1">
+                        <i class="bi bi-code-slash"></i>
+                        <span>Full Stack</span>
+                    </div>
+                    <div class="float-card card-2">
+                        <i class="bi bi-cpu"></i>
+                        <span>ML / AI</span>
+                    </div>
+                    <div class="float-card card-3">
+                        <i class="bi bi-database"></i>
+                        <span>MySQL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section py-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <div class="about-img-wrap">
+                    <div class="about-placeholder">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="about-info-card">
+                        <div class="info-item"><i class="bi bi-geo-alt-fill"></i> Manila, Philippines</div>
+                        <div class="info-item"><i class="bi bi-mortarboard-fill"></i> BSIT 3-3, PUP</div>
+                        <div class="info-item"><i class="bi bi-calendar-check-fill"></i> Class of 2027</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="section-label">About Me</div>
+                <h2 class="section-title">Passionate Developer,<br>Lifelong Learner</h2>
+                <p class="section-text">
+                    I'm a 3rd-year Bachelor of Science in Information Technology student at the
+                    <strong>Polytechnic University of the Philippines (PUP)</strong>. I specialize in full-stack
+                    development with a focus on building practical, impactful applications.
+                </p>
+                <p class="section-text">
+                    My current capstone project, <strong>BeeGuard</strong>, integrates machine learning,
+                    GIS mapping, computer vision, and e-commerce to support Philippine beekeepers with
+                    species recognition, pesticide early warning, and marketplace features.
+                </p>
+                <div class="about-stats row g-3 mt-2">
+                    <div class="col-4">
+                        <div class="stat-box">
+                            <div class="stat-number">3+</div>
+                            <div class="stat-label">Years Coding</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-box">
+                            <div class="stat-number">@featuredProjects.Count+</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-box">
+                            <div class="stat-number">8+</div>
+                            <div class="stat-label">Tech Skills</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section py-section bg-alt">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="section-label">What I Know</div>
+            <h2 class="section-title">Skills &amp; Technologies</h2>
+        </div>
+        <div class="row g-4">
+            @foreach (var category in skillCategories)
+            {
+                <div class="col-md-6 col-lg-3">
+                    <div class="skill-category-card">
+                        <div class="skill-cat-header">
+                            <i class="bi @(category.Key == "Backend" ? "bi-server" : category.Key == "Frontend" ? "bi-layout-text-window" : category.Key == "Database" ? "bi-database" : "bi-tools")"></i>
+                            <span>@category.Key</span>
+                        </div>
+                        @foreach (var skill in category.Value)
+                        {
+                            <div class="skill-item">
+                                <div class="skill-header-row">
+                                    <span class="skill-name">@skill.Name</span>
+                                    <span class="skill-pct">@skill.Proficiency%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" style="width: @skill.Proficiency%"></div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED PROJECTS -->
+<section class="featured-section py-section">
+    <div class="container">
+        <div class="d-flex align-items-end justify-content-between mb-5">
+            <div>
+                <div class="section-label">Portfolio</div>
+                <h2 class="section-title mb-0">Featured Projects</h2>
+            </div>
+            <a asp-controller="Projects" asp-action="Index" class="btn btn-outline-custom">
+                View All <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+        <div class="row g-4">
+            @foreach (var project in featuredProjects)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="project-card">
+                        <div class="project-card-header">
+                            <i class="bi bi-folder2-open"></i>
+                            @if (project.IsFeatured)
+                            {
+                                <span class="featured-badge"><i class="bi bi-star-fill"></i> Featured</span>
+                            }
+                        </div>
+                        <h4 class="project-card-title">@project.Title</h4>
+                        <p class="project-card-desc">@(project.Description.Length > 120 ? project.Description[..120] + "…" : project.Description)</p>
+                        @if (!string.IsNullOrEmpty(project.TechStack))
+                        {
+                            <div class="tech-tags">
+                                @foreach (var tech in project.TechStack.Split(',').Take(3))
+                                {
+                                    <span class="tech-tag">@tech.Trim()</span>
+                                }
+                            </div>
+                        }
+                        <div class="project-links mt-3">
+                            <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.Id" class="link-detail">
+                                Details <i class="bi bi-arrow-right"></i>
+                            </a>
+                            @if (!string.IsNullOrEmpty(project.GitHubUrl))
+                            {
+                                <a href="@project.GitHubUrl" target="_blank" class="link-github">
+                                    <i class="bi bi-github"></i>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section py-section bg-dark-cta">
+    <div class="container text-center">
+        <h2 class="cta-title">Let's Work Together</h2>
+        <p class="cta-subtitle">Have a project in mind or just want to connect? I'd love to hear from you.</p>
+        <a asp-controller="Contact" asp-action="Index" class="btn btn-primary-custom btn-lg">
+            Get In Touch <i class="bi bi-send ms-2"></i>
+        </a>
+    </div>
+</section>

@@ -1,0 +1,77 @@
+@model IEnumerable<PortfolioMVC.Models.Project>
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<section class="page-hero">
+    <div class="container">
+        <div class="section-label">Portfolio</div>
+        <h1 class="page-hero-title">My Projects</h1>
+        <p class="page-hero-sub">A collection of things I've built — from capstone systems to data analysis.</p>
+    </div>
+</section>
+
+<section class="py-section">
+    <div class="container">
+        <div class="d-flex justify-content-end mb-4">
+            <a asp-action="Create" class="btn btn-primary-custom">
+                <i class="bi bi-plus-lg me-1"></i> Add Project
+            </a>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <i class="bi bi-folder-x"></i>
+                <p>No projects yet. Add your first one!</p>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var project in Model)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="project-card h-100">
+                            <div class="project-card-header">
+                                <i class="bi bi-folder2-open"></i>
+                                @if (project.IsFeatured)
+                                {
+                                    <span class="featured-badge"><i class="bi bi-star-fill"></i> Featured</span>
+                                }
+                            </div>
+                            <h4 class="project-card-title">@project.Title</h4>
+                            <p class="project-card-desc">@(project.Description.Length > 130 ? project.Description[..130] + "…" : project.Description)</p>
+                            @if (!string.IsNullOrEmpty(project.TechStack))
+                            {
+                                <div class="tech-tags">
+                                    @foreach (var tech in project.TechStack.Split(',').Take(4))
+                                    {
+                                        <span class="tech-tag">@tech.Trim()</span>
+                                    }
+                                </div>
+                            }
+                            <div class="project-links mt-3 d-flex gap-2 flex-wrap">
+                                <a asp-action="Details" asp-route-id="@project.Id" class="btn btn-sm btn-outline-custom">
+                                    Details
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@project.Id" class="btn btn-sm btn-edit">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@project.Id" class="btn btn-sm btn-danger-soft">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                                @if (!string.IsNullOrEmpty(project.GitHubUrl))
+                                {
+                                    <a href="@project.GitHubUrl" target="_blank" class="btn btn-sm btn-github">
+                                        <i class="bi bi-github"></i>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>

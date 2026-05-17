@@ -1,0 +1,105 @@
+@model PortfolioMVC.Models.ContactMessage
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<section class="page-hero">
+    <div class="container">
+        <div class="section-label">Get In Touch</div>
+        <h1 class="page-hero-title">Contact Me</h1>
+        <p class="page-hero-sub">Have a question or want to collaborate? Drop me a message!</p>
+    </div>
+</section>
+
+<section class="py-section">
+    <div class="container">
+        <div class="row g-5 align-items-start">
+            <div class="col-lg-5">
+                <div class="contact-info-block">
+                    <h4 class="mb-4">Let's Connect</h4>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
+                        <div>
+                            <div class="contact-label">Email</div>
+                            <div class="contact-value">evansgutiérrez@pup.edu.ph</div>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                        <div>
+                            <div class="contact-label">Location</div>
+                            <div class="contact-value">Manila, Philippines</div>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon"><i class="bi bi-mortarboard-fill"></i></div>
+                        <div>
+                            <div class="contact-label">School</div>
+                            <div class="contact-value">Polytechnic University of the Philippines</div>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon"><i class="bi bi-github"></i></div>
+                        <div>
+                            <div class="contact-label">GitHub</div>
+                            <div class="contact-value">github.com/yourusername</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-cta-note">
+                    <i class="bi bi-chat-dots-fill me-2"></i>
+                    Messages are saved to the database and I'll respond as soon as possible!
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="form-card">
+                    <form asp-action="Index" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger small mb-3"></div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Name" class="form-label-custom">Full Name *</label>
+                                <input asp-for="Name" class="form-control form-control-custom" placeholder="Juan dela Cruz" />
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label-custom">Email *</label>
+                                <input asp-for="Email" class="form-control form-control-custom" placeholder="juan@example.com" />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Subject" class="form-label-custom">Subject *</label>
+                            <input asp-for="Subject" class="form-control form-control-custom" placeholder="e.g., Project Collaboration, Internship Inquiry" />
+                            <span asp-validation-for="Subject" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Message" class="form-label-custom">Message *</label>
+                            <textarea asp-for="Message" class="form-control form-control-custom" rows="6" placeholder="Type your message here..."></textarea>
+                            <span asp-validation-for="Message" class="text-danger small"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary-custom w-100">
+                            <i class="bi bi-send me-2"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a asp-action="Messages" class="btn btn-outline-custom btn-sm">
+                <i class="bi bi-inbox me-1"></i> View Message Inbox
+            </a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

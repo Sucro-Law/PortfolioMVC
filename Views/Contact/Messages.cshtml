@@ -1,0 +1,81 @@
+@model IEnumerable<PortfolioMVC.Models.ContactMessage>
+@{
+    ViewData["Title"] = "Message Inbox";
+    int unreadCount = Model.Count(m => !m.IsRead);
+}
+
+<section class="page-hero">
+    <div class="container">
+        <a asp-action="Index" class="back-link"><i class="bi bi-arrow-left me-1"></i> Contact</a>
+        <h1 class="page-hero-title mt-3">Message Inbox</h1>
+        <p class="page-hero-sub">
+            @Model.Count() message(s) received
+            @if (unreadCount > 0)
+            {
+                <span class="ms-2 badge" style="background:var(--accent);color:#000;">@unreadCount unread</span>
+            }
+        </p>
+    </div>
+</section>
+
+<section class="py-section">
+    <div class="container">
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <p>No messages yet.</p>
+            </div>
+        }
+        else
+        {
+            <div class="messages-list">
+                @foreach (var msg in Model)
+                {
+                    <div class="message-card @(!msg.IsRead ? "unread" : "")">
+                        <div class="message-header">
+                            <div class="message-sender">
+                                <div class="sender-avatar">@msg.Name[0]</div>
+                                <div>
+                                    <div class="sender-name">@msg.Name</div>
+                                    <div class="sender-email">@msg.Email</div>
+                                </div>
+                            </div>
+                            <div class="message-meta d-flex align-items-center gap-2 flex-wrap justify-content-end">
+                                <span class="message-date">@msg.SentAt.ToString("MMM dd, yyyy – hh:mm tt")</span>
+                                @if (!msg.IsRead)
+                                {
+                                    <span class="unread-dot"></span>
+                                }
+                                @if (msg.IsRead)
+                                {
+                                    <form asp-action="MarkUnread" asp-route-id="@msg.Id" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-custom" title="Mark as unread">
+                                            <i class="bi bi-envelope"></i>
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form asp-action="MarkRead" asp-route-id="@msg.Id" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-edit" title="Mark as read">
+                                            <i class="bi bi-envelope-open"></i>
+                                        </button>
+                                    </form>
+                                }
+                                <form asp-action="Delete" asp-route-id="@msg.Id" method="post" class="d-inline"
+                                      onsubmit="return confirm('Delete this message from @Html.Raw(msg.Name.Replace("'", "\\'"))?');">
+                                    <button type="submit" class="btn btn-sm btn-danger-soft" title="Delete message">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="message-subject">@msg.Subject</div>
+                        <div class="message-body">@msg.Message</div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
